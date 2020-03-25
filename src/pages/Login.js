@@ -10,7 +10,7 @@ export default function Login() {
   const emailOnChange = useCallback(event => setEmail(event.target.value), []);
   const passwordOnChange = useCallback(event => setPassword(event.target.value), [])
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback((event) => {
     // Two ways, either (1) make the auth API call here, then store loggedIn state(redux state is lost when refreshed btw) (2) or store email and password
 
     const authenticated = authenticateUser(email, password);
@@ -21,6 +21,8 @@ export default function Login() {
     } else {
 
     }
+    
+    event.preventDefault();
   }, [email, password])
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 export default function Signup({ userState }) {
   const [email, setEmail] = userState.emailHook;

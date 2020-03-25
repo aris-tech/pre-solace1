@@ -1,16 +1,28 @@
 import React, { useState, useCallback } from 'react';
 
-export default function Login({ userState }) {
-  const [email, setEmail] = userState.emailHook;
-  const [password, setPassword] = userState.passwordHook;
+function authenticateUser(email, password) {
+  return email.length > 0 && password.length > 0;
+}
 
-  const emailOnChange = useCallback(event => setEmail(event.target.value), [setEmail]);
-  const passwordOnChange = useCallback(event => setPassword(event.target.value), [setPassword]);
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const emailOnChange = useCallback(event => setEmail(event.target.value), []);
+  const passwordOnChange = useCallback(event => setPassword(event.target.value), [])
 
-  const handleSubmit = useCallback(event => {
-    alert(`Email: ${email}, Password: ${password}`);
-    event.preventDefault();
+  const handleSubmit = useCallback(() => {
+    // Two ways, either (1) make the auth API call here, then store loggedIn state(redux state is lost when refreshed btw) (2) or store email and password
+
+    const authenticated = authenticateUser(email, password);
+
+    // Success
+    if (authenticated) {
+      // Redirect to welcome page
+    } else {
+
+    }
   }, [email, password])
+
 
   return (
     <>

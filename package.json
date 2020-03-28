@@ -1,39 +1,36 @@
 {
-  "name": "solace",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@emotion/core": "^10.0.28",
-    "@material-ui/core": "^4.9.7",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-redux": "^7.2.0",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1",
-    "redux": "^4.0.5"
+  "name": "pre-solace1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/aris-tech/pre-solace1.git",
+  "author": "Richard Ahn <richahn2@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^3.0.0",
+    "nodemon": "^2.0.2",
+    "prettier": "^2.0.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "client-install": "npm install --prefix client",
+    "start": "node src/server.js",
+    "server": "nodemon src/server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"yarn server\" \"yarn client\""
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.1.0",
+    "express": "^4.17.1",
+    "is-empty": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.6",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "validator": "^13.0.0"
   }
 }

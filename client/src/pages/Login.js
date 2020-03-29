@@ -1,5 +1,9 @@
 import React, { Component, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loginUser } from '../actions/auth';
+import classnames from 'classnames';
 
 function LoginForm({ onSubmit, onInputChange, email, password, errors }) {
   return (
@@ -11,8 +15,15 @@ function LoginForm({ onSubmit, onInputChange, email, password, errors }) {
           error={errors.email}
           id="email"
           type="email"
+          className={classnames({
+            invalid: errors.email || errors.emailnotfound,
+          })}
         />
         <label htmlFor="email">Email</label>
+        <span className="red-text">
+          {errors.email}
+          {errors.emailnotfound}
+        </span>
       </div>
       <div className="input-field col s12">
         <input
@@ -21,8 +32,15 @@ function LoginForm({ onSubmit, onInputChange, email, password, errors }) {
           error={errors.password}
           id="password"
           type="password"
+          className={classnames({
+            invalid: errors.password || errors.passwordincorrect,
+          })}
         />
         <label htmlFor="password">Password</label>
+        <span className="red-text">
+          {errors.password}
+          {errors.passwordincorrect}
+        </span>
       </div>
       <div className="col s12" style={{ paddingLeft: '11.25px' }}>
         <button
@@ -42,7 +60,7 @@ function LoginForm({ onSubmit, onInputChange, email, password, errors }) {
   );
 }
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
 
@@ -68,8 +86,26 @@ export default class Login extends Component {
       password: this.state.password,
     };
 
-    alert('Logged In');
-    console.log(userData);
+    this.props.loginUser(userData);
+  }
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/home');
+    }
+  }
+
+  // Why put logic here? Because redux maps state to props, so if we want to do something whenever redux sends props here, we would put that logic here
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push('/home'); // Why not put this in the action(thunk) itself?
+    }
+    // Merge errors from redux with the errors in this react component's state
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors,
+      });
+    }
   }
 
   render() {
@@ -99,3 +135,20 @@ export default class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+const mapDispatchToProps = {
+  loginUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux';
 
 // Reducers
+import auth from './auth';
+import errors from './errors';
 
-const app = combineReducers({});
-export default app;
+export default combineReducers({
+  auth,
+  errors,
+});

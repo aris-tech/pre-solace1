@@ -22,9 +22,14 @@ module.exports = function validateRegisterInput({
     errors.password = 'Password field is required';
   }
   // todo: Add extension isPassword() function
-
   if (Validator.isEmpty(passwordConfirm)) {
     errors.passwordConfirm = 'Confirm password field is required';
+  }
+  if (!Validator.isLength(password, { min: 6, max: 30 })) {
+    errors.password = 'Password must be at least 6 characters';
+  }
+  if (!Validator.equals(password, passwordConfirm)) {
+    errors.passwordConfirm = 'Passwords must match';
   }
 
   return {

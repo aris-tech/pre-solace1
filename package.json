@@ -19,9 +19,11 @@
     "start": "node src/server.js",
     "server": "nodemon src/server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"yarn server\" \"yarn client\""
+    "dev": "concurrently \"yarn server\" \"yarn client\"",
+    "prettier": "prettier --write \"**/*.js\""
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^5.1.0",

@@ -1,6 +1,10 @@
 import React, { Component, useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { css, jsx } from '@emotion/core';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { signupUser } from '../actions/auth';
+import classnames from 'classnames';
 
 function SignupForm({
   onSubmit,
@@ -17,15 +21,23 @@ function SignupForm({
         <input
           id="name"
           type="text"
-          error={errors.name}
           value={name}
           onChange={onInputChange}
+          className={classnames({ invalid: errors.name })}
         />
         <label htmlFor="name">Name</label>
+        <span className="red-text">{errors.name}</span>
       </div>
       <div className="input-field col s12">
-        <input id="email" type="email" value={email} onChange={onInputChange} />
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={onInputChange}
+          className={classnames({ invalid: errors.email })}
+        />
         <label htmlFor="email">Email</label>
+        <span className="red-text">{errors.email}</span>
       </div>
       <div className="input-field col s12">
         <input
@@ -33,8 +45,10 @@ function SignupForm({
           type="password"
           value={password}
           onChange={onInputChange}
+          className={classnames({ invalid: errors.password })}
         />
         <label htmlFor="password">Password</label>
+        <span className="red-text">{errors.password}</span>
       </div>
       <div className="input-field col s12">
         <input
@@ -44,6 +58,7 @@ function SignupForm({
           onChange={onInputChange}
         />
         <label>Confirm Your Password</label>
+        <span className="red-text">{errors.passwordConfirm}</span>
       </div>
       <div className="col s12" style={{ paddingLeft: '12.5px' }}>
         <button
@@ -62,7 +77,7 @@ function SignupForm({
   );
 }
 
-export default class Signup extends Component {
+class Signup extends Component {
   constructor(props) {
     super(props);
 
@@ -92,13 +107,26 @@ export default class Signup extends Component {
       passwordConfirm: this.state.passwordConfirm,
     };
 
-    alert('Signed Up');
-    console.log(newUser);
+    this.props.signupUser(newUser, this.props.history);
+  }
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/home');
+    }
+  }
+
+  // Mix redux errors with component state errors
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors,
+      });
+    }
   }
 
   render() {
     const { errors } = this.state;
-    errors.name = 'Name bad';
 
     return (
       <>
@@ -135,6 +163,24 @@ export default class Signup extends Component {
     );
   }
 }
+
+// Maps store state to props
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+const mapDispatchToProps = {
+  signupUser,
+};
+
+Signup.propTypes = {
+  signupUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Signup));
 
 /*
 Goals: 

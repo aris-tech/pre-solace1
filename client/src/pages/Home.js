@@ -50,7 +50,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = {
   logoutUser,
-});
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

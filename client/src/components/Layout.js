@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import Welcome from '../pages/Welcome';
+import Header from './Header';
 
 export default function Layout() {
   const routes = [
@@ -14,6 +15,7 @@ export default function Layout() {
 
   return (
     <Router>
+      <Header />
       <Switch>
         {routes.map((route) => (
           <Route {...route} />

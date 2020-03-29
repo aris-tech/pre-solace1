@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import './index.css';
-import Layout from './components/Layout'
+import Layout from './components/Layout';
 import * as serviceWorker from './serviceWorker';
-import createAppStore from './store/createAppStore'
+import createAppStore from './store/createAppStore';
 
 const store = createAppStore();
 
@@ -14,7 +14,7 @@ ReactDOM.render(
       <Layout />
     </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

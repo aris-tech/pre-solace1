@@ -31,16 +31,17 @@ class Header extends Component {
       {
         name: 'Profile',
         to: '/profile',
+        auth: true,
       },
       {
         name: 'Logout',
         to: '',
         onClick: this.onLogoutClick,
-        notVisible: !this.props.auth.isAuthenticated,
+        auth: true,
       },
     ];
     const navbarList = navbarItems
-      .filter((item) => !item.notVisible)
+      .filter((item) => !item.auth || this.props.auth.isAuthenticated)
       .map((item, index) => (
         <li>
           <Link className="black-text" to={item.to} onClick={item.onClick}>

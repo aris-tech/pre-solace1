@@ -61,6 +61,11 @@ function LoginForm({ onSubmit, onInputChange, email, password, errors }) {
 }
 
 class Login extends Component {
+  static propTypes = {
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired,
+  };
   constructor(props) {
     super(props);
 
@@ -88,13 +93,11 @@ class Login extends Component {
 
     this.props.loginUser(userData);
   }
-
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/home');
+      this.props.history.push('/home'); // Why not put this in the action(thunk) itself?
     }
   }
-
   // Why put logic here? Because redux maps state to props, so if we want to do something whenever redux sends props here, we would put that logic here
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
@@ -135,12 +138,6 @@ class Login extends Component {
     );
   }
 }
-
-Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-};
 
 const mapStateToProps = (state) => ({
   auth: state.auth,

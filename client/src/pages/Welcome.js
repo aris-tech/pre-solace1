@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { css, jsx } from '@emotion/core';
+import { connect } from 'react-redux';
 
 // todo: Should be called landing page
 
@@ -10,9 +11,11 @@ const WelcomeButtonCss = css`
   letter-spacing: 1.5px;
 `;
 
-export default class Welcome extends Component {
+class Welcome extends Component {
   componentDidMount() {
-    // todo: redirect to home if authenticated
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/home');
+    }
   }
 
   render() {
@@ -53,3 +56,11 @@ export default class Welcome extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+
+export default connect(mapStateToProps)(Welcome);

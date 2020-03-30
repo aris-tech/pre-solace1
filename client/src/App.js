@@ -13,8 +13,8 @@ import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/auth';
 import jwt_decode from 'jwt-decode';
 
+// These functions only get called when the App component refreshes, which will only happen when you refresh the page
 const store = createAppStore();
-
 if (localStorage.jwtToken) {
   const { jwtToken: token } = localStorage;
   setAuthToken(token);

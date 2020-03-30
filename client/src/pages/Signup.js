@@ -78,6 +78,11 @@ function SignupForm({
 }
 
 class Signup extends Component {
+  static propTypes = {
+    signupUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired,
+  };
   constructor(props) {
     super(props);
 
@@ -118,6 +123,9 @@ class Signup extends Component {
 
   // Mix redux errors with component state errors
   componentWillReceiveProps(nextProps) {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/home');
+    }
     if (nextProps.errors) {
       this.setState({
         errors: nextProps.errors,
@@ -174,13 +182,7 @@ const mapDispatchToProps = {
   signupUser,
 };
 
-Signup.propTypes = {
-  signupUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Signup));
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
 
 /*
 Goals: 

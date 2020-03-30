@@ -21,8 +21,11 @@ class Home extends Component {
     return (
       <div className="container valign-wrapper" style={{ height: '75vh' }}>
         <div className="row">
-          <div className="col s12 center-align">
-            <h5 style={{ marginBottom: '50px' }}>
+          <div
+            className="col s12 center-align"
+            style={{ marginBottom: '25px' }}
+          >
+            <h5>
               Hello, <b>{user.name.split(' ')[0]}</b>
             </h5>
           </div>
@@ -35,7 +38,6 @@ class Home extends Component {
                       id="search"
                       type="search"
                       placeholder="What's troubling you?"
-                      required
                     ></input>
                     <label class="label-icon" for="search">
                       <i class="material-icons">search</i>

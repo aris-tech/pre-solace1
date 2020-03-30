@@ -9,6 +9,8 @@ import Welcome from './pages/Welcome';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
+import Footer from './components/Footer';
+import Profile from './pages/Profile';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/auth';
 import jwt_decode from 'jwt-decode';
@@ -39,7 +41,9 @@ export default function App() {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <PrivateRoute exact path="/home" component={Home} />
+            <PrivateRoute exact path="/profile" component={Profile} />
           </Switch>
+          <Footer />
         </div>
       </Router>
     </Provider>

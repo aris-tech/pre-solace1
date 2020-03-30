@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { signupUser } from '../actions/auth';
 import classnames from 'classnames';
+import M from 'materialize-css';
 
 function SignupForm({
   onSubmit,
@@ -112,7 +113,9 @@ class Signup extends Component {
       passwordConfirm: this.state.passwordConfirm,
     };
 
-    this.props.signupUser(newUser, this.props.history);
+    this.props.signupUser(newUser, this.props.history, () =>
+      M.toast({ html: 'Successfully created account.' }),
+    );
   }
 
   componentDidMount() {

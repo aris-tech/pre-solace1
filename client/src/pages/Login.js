@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginUser } from '../actions/auth';
 import classnames from 'classnames';
+import M from 'materialize-css';
 
 function LoginForm({ onSubmit, onInputChange, email, password, errors }) {
   return (

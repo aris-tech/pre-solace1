@@ -25,7 +25,7 @@ class Welcome extends Component {
           <div className="row">
             <div className="col s12 center-align">
               <h4>
-                <b>Welcome</b> to Solace
+                Welcome to <b>Solace</b>
               </h4>
               <p className="flow-text grey-text text-darken-1">
                 Find a mental help counselor now

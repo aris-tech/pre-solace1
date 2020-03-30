@@ -1,6 +1,7 @@
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
+import M from 'materialize-css';
 
 import { getErrors } from './error';
 
@@ -18,11 +19,16 @@ export const USER_LOADING = 'USER_LOADING';
 We want to solve the issue of mixing client-side errors and server-side errors
 we dispatch getErrors to get the errors from the api into redux
 */
-export function signupUser(userData, history) {
+export function signupUser(userData, history, onSuccess) {
   return (dispatch) => {
     axios
       .post('/api/userIdentities/signup', userData)
-      .then((res) => history.push('/login'))
+      .then((res) => {
+        if (onSuccess) {
+          onSuccess();
+        }
+        history.push('/login');
+      })
       .catch((err) => dispatch(getErrors(err)));
   };
 }
@@ -56,12 +62,13 @@ export function setUserLoading() {
   };
 }
 
-export function logoutUser() {
+export function logoutUser(history) {
   return (dispatch) => {
     // Remove token from localStorage
     localStorage.removeItem('jwtToken');
     // Remove auth header from future requests
     setAuthToken(false);
+    history.push('/login');
     // Set user to nobody
     dispatch(setCurrentUser({}));
   };

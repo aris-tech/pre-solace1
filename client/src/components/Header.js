@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import M from 'materialize-css';
 import { connect } from 'react-redux';
 import { logoutUser } from '../actions/auth';
@@ -18,37 +18,50 @@ class Header extends Component {
 
   onLogoutClick(event) {
     event.preventDefault();
-    this.props.logoutUser();
+    this.props.logoutUser(this.props.history);
   }
 
   render() {
+    const homePageUrl = this.props.auth.isAuthenticated ? '/home' : '/';
     const navbarItems = [
       {
         name: 'Home',
-        to: '/home',
+        to: homePageUrl,
       },
       {
-        name: 'Log Out',
+        name: 'Profile',
+        to: '/profile',
+      },
+      {
+        name: 'Logout',
+        to: '',
         onClick: this.onLogoutClick,
+        notVisible: !this.props.auth.isAuthenticated,
       },
     ];
-    const navbarList = navbarItems.map((item, index) => (
-      <li>
-        <Link className="black-text" to={item.to} onClick={item.onClick}>
-          {item.name}
-        </Link>
-      </li>
-    ));
+    const navbarList = navbarItems
+      .filter((item) => !item.notVisible)
+      .map((item, index) => (
+        <li>
+          <Link className="black-text" to={item.to} onClick={item.onClick}>
+            {item.name}
+          </Link>
+        </li>
+      ));
     return (
       <>
         <div className="navbar-fixed">
           <nav className="z-depth-0">
             <div className="nav-wrapper white">
               {/* Brand */}
-              <Link to="/" className="col s5 brand-logo center black-text">
+              <Link
+                to={homePageUrl}
+                className="col s5 brand-logo center black-text"
+              >
                 <span style={{ letterSpacing: '10px' }}>SOLACE</span>
               </Link>
 
+              {/* Hamburger Menu Button */}
               <a
                 href="#"
                 data-target="mobile-dropdown"
@@ -57,10 +70,12 @@ class Header extends Component {
                 <i className="material-icons black-text">menu</i>
               </a>
 
-              <ul className="left hide-on-med-and-down">{navbarList}</ul>
+              {/* Header Menu Items */}
+              <ul className="right hide-on-med-and-down">{navbarList}</ul>
             </div>
           </nav>
         </div>
+        {/* Sidebar Menu Items */}
         <ul
           className="sidenav sidenav-close"
           id="mobile-dropdown"
@@ -80,4 +95,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   logoutUser,
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

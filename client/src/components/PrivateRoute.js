@@ -2,13 +2,15 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import M from 'materialize-css';
+
+import { userNotLoggedIn } from '../actions/auth';
 
 // "component: Component" seems like weird syntax. What it's doing is renaming the lower-case "component" to "Component", which allows us to use it as a component with JSX, i.e. as <Component />
 function PrivateRoute({
   component: Component,
   redirect = '/login',
   auth,
+  userNotLoggedIn,
   ...rest
 }) {
   return (
@@ -18,7 +20,7 @@ function PrivateRoute({
         if (auth.isAuthenticated) {
           return <Component {...props} />;
         } else {
-          M.toast({ html: 'You are not logged in.' });
+          userNotLoggedIn();
           return <Redirect to={redirect} />;
         }
       }}
@@ -33,5 +35,8 @@ PrivateRoute.propTypes = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
+const mapDispatchToProps = {
+  userNotLoggedIn,
+};
 
-export default connect(mapStateToProps)(PrivateRoute);
+export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);

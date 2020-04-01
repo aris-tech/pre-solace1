@@ -73,3 +73,9 @@ export function logoutUser(history) {
     dispatch(setCurrentUser({}));
   };
 }
+
+export function userNotLoggedIn() {
+  return (dispatch) => {
+    M.toast({ html: 'You are not logged in.' });
+  };
+}

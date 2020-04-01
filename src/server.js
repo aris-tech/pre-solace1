@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 
 const userIdentities = require('./routes/api/userIdentities');
+const search = require('./routes/api/search');
 
 const app = express();
 
@@ -24,6 +25,7 @@ require('./config/passport')(passport);
 function addRoutes(app) {
   // place this in routes\index.js
   app.use('/api/userIdentities', userIdentities);
+  app.use('/api/search', search);
 }
 addRoutes(app);
 

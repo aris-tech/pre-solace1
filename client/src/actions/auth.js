@@ -22,7 +22,7 @@ we dispatch getErrors to get the errors from the api into redux
 export function signupUser(userData, history, onSuccess) {
   return (dispatch) => {
     axios
-      .post('/api/userIdentities/signup', userData)
+      .post('/api/users/signup', userData)
       .then((res) => {
         if (onSuccess) {
           onSuccess();
@@ -35,8 +35,9 @@ export function signupUser(userData, history, onSuccess) {
 export function loginUser(userData) {
   return (dispatch) => {
     axios
-      .post('/api/userIdentities/login', userData)
+      .post('/api/users/login', userData)
       .then((res) => {
+        debugger;
         // Save token to localStorage
         const { token } = res.data;
         localStorage.setItem('jwtToken', token);

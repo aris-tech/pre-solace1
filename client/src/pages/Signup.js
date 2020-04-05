@@ -10,7 +10,8 @@ import M from 'materialize-css';
 function SignupForm({
   onSubmit,
   onInputChange,
-  name,
+  firstName,
+  lastName,
   email,
   password,
   passwordConfirm,
@@ -20,14 +21,25 @@ function SignupForm({
     <form noValidate onSubmit={onSubmit}>
       <div className="input-field col s12">
         <input
-          id="name"
+          id="firstName"
           type="text"
-          value={name}
+          value={firstName}
           onChange={onInputChange}
-          className={classnames({ invalid: errors.name })}
+          className={classnames({ invalid: errors.firstName })}
         />
-        <label htmlFor="name">Name</label>
-        <span className="red-text">{errors.name}</span>
+        <label htmlFor="firstName">First Name</label>
+        <span className="red-text">{errors.firstName}</span>
+      </div>
+      <div className="input-field col s12">
+        <input
+          id="lastName"
+          type="text"
+          value={lastName}
+          onChange={onInputChange}
+          className={classnames({ invalid: errors.lastName })}
+        />
+        <label htmlFor="lastName">Last Name (optional)</label>
+        <span className="red-text">{errors.lastName}</span>
       </div>
       <div className="input-field col s12">
         <input
@@ -88,7 +100,8 @@ class Signup extends Component {
     super(props);
 
     this.state = {
-      name: '',
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       passwordConfirm: '',
@@ -107,7 +120,8 @@ class Signup extends Component {
     event.preventDefault();
 
     const newUser = {
-      name: this.state.name,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
       email: this.state.email,
       password: this.state.password,
       passwordConfirm: this.state.passwordConfirm,
@@ -161,7 +175,8 @@ class Signup extends Component {
               <SignupForm
                 onSubmit={this.onFormSubmit}
                 onInputChange={this.onInputChange}
-                name={this.state.name}
+                firstName={this.state.firstName}
+                lastName={this.state.lastName}
                 email={this.state.email}
                 password={this.state.password}
                 passwordConfirm={this.state.passwordConfirm}

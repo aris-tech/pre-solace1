@@ -23,10 +23,7 @@ export function searchForCounselor(searchQuery, userId, history) {
     axios
       .post('/api/search', { searchQuery, userId })
       .then((response) => {
-        debugger;
-        const { searchResults } = response.data;
-        dispatch(setSearchResults(searchResults));
-        history.push('/search');
+        dispatch(setSearchResults(response.data));
       }) // Obtain search results
       .catch((err) => dispatch(searchFail(err)));
   };

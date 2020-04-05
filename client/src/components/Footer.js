@@ -5,10 +5,10 @@ class Footer extends Component {
     return (
       <footer className="page-footer white">
         <div
-          class="footer-copyright right white"
+          className="footer-copyright right white"
           style={{ marginRight: '10px' }}
         >
-          <div class="container black-text" style={{ width: '100%' }}>
+          <div className="container black-text" style={{ width: '100%' }}>
             © 2020 Copyright
           </div>
         </div>

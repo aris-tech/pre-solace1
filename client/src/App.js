@@ -44,7 +44,7 @@ export default function App() {
             <Route exact path="/signup" component={Signup} />
             <PrivateRoute exact path="/home" component={Home} />
             <PrivateRoute exact path="/profile" component={Profile} />
-            <PrivateRoute path="/search" component={Search} />
+            <PrivateRoute exact path="/search/:query" component={Search} />
           </Switch>
           <Footer />
         </div>

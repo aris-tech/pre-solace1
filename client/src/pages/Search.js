@@ -1,21 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { searchForCounselor } from '../actions/search';
 
-class Profile extends Component {
+class Search extends Component {
+  componentDidMount() {
+    // Make action here
+    const { query } = this.props.match.params;
+    this.props.searchForCounselor(query, 'test', this.props.history);
+  }
   render() {
     let searchResults;
     if (this.props.search.searchResults) {
-      searchResults = this.props.search.searchResults.map((item) => {
-        return <li>{item.name}</li>;
-      });
+      searchResults = (
+        <ul className="collection">
+          {this.props.search.searchResults.map((item, index) => {
+            return (
+              <li key={index} className="collection-item">
+                {item.name}
+              </li>
+            );
+          })}
+        </ul>
+      );
     } else {
-      searchResults = <p>No results!</p>;
+      searchResults = <p>Nothing was found</p>;
     }
     return (
-      <p>
-        Hi this is search
-        <ul>{searchResults}</ul>
-      </p>
+      <div className="container">
+        <div className="row">
+          <div className="col s12">
+            <h4>Search Results</h4>
+            {searchResults}
+          </div>
+        </div>
+      </div>
     );
   }
 }
@@ -26,4 +44,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Profile);
+const mapDispatchToProps = {
+  searchForCounselor,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

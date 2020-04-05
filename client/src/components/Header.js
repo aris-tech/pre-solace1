@@ -43,7 +43,7 @@ class Header extends Component {
     const navbarList = navbarItems
       .filter((item) => !item.auth || this.props.auth.isAuthenticated)
       .map((item, index) => (
-        <li>
+        <li key={index}>
           <Link className="black-text" to={item.to} onClick={item.onClick}>
             {item.name}
           </Link>

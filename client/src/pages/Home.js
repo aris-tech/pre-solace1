@@ -67,11 +67,7 @@ class Home extends Component {
     // Dispatch thunk that sends text to api, then afterwards, I take the response and store it in state
     // I'll push history here
     event.preventDefault();
-    this.props.searchForCounselor(
-      this.state.searchText,
-      'test',
-      this.props.history,
-    );
+    this.props.history.push(`/search/${this.state.searchText}`);
   }
 
   render() {

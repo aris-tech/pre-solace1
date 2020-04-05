@@ -3,15 +3,16 @@ const Validator = require('validator');
 const isEmpty = require('is-empty');
 
 module.exports = function validateRegisterInput({
-  name = '',
+  firstName = '',
+  lastName = '',
   email = '',
   password = '',
   passwordConfirm = '',
 } = {}) {
   const errors = {};
 
-  if (Validator.isEmpty(name)) {
-    errors.name = 'Name field is required';
+  if (Validator.isEmpty(firstName)) {
+    errors.firstName = 'First Name field is required';
   }
   if (Validator.isEmpty(email)) {
     errors.email = 'Email field is required';

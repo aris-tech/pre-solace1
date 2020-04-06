@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const generateJwtToken = require('../../utils/jwt');
 
 // Redirect to google login page
 router.get(
@@ -10,9 +11,15 @@ router.get(
 
 router.get(
   '/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  passport.authenticate('google', {
+    session: false,
+    failureRedirect: '/login',
+  }),
   (req, res) => {
-    res.send(req.user);
+    generateJwtToken(req.user, (err, token) => {
+      res.cookie('auth', token);
+      res.redirect('/home');
+    });
   },
 );
 

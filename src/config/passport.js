@@ -63,21 +63,17 @@ module.exports = (passport) => {
                 providerId: profile.id,
               });
               user.save(function (err) {
-                if (err) console.log(err);
-                else console.log(`Created new google oauth user: ${user}`);
-                return done(err, {
-                  user,
-                  accessToken,
-                  refreshToken,
-                });
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log(`Created new google oauth user: ${user}`);
+                }
+
+                return done(err, user);
               });
             } else {
               console.log('An account with this google log in already exists');
-              return done(err, {
-                user,
-                accessToken,
-                refreshToken,
-              });
+              return done(err, user);
             }
           },
         );

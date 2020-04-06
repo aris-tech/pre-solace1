@@ -16,6 +16,7 @@ import Search from './pages/Search';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/auth';
 import jwt_decode from 'jwt-decode';
+import Cookies from 'js-cookie';
 
 // These functions only get called when the App component refreshes, which will only happen when you refresh the page
 const store = createAppStore();
@@ -31,6 +32,14 @@ if (localStorage.jwtToken) {
     window.location.href = '/login';
   }
 }
+
+// If an auth cookie exists, use it to set the authenticated state
+const jwtToken = Cookies.get('auth');
+const decodedJwtToken = jwt_decode(jwtToken);
+if (decodedJwtToken) {
+  store.dispatch(setCurrentUser(decodedJwtToken)); // TODO: Since this cookie doesn't go away, this action gets called every time, but this action leads to a re-render of this PrivateRoute, which then in turn calls this action
+}
+debugger;
 
 export default function App() {
   return (

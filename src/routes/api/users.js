@@ -4,8 +4,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../../config');
 
-const validateSignupInput = require('../../validation/signup');
-const validateLoginInput = require('../../validation/login');
+const validateSignupInput = require('../../utils/validation/signup');
+const validateLoginInput = require('../../utils/validation/login');
+const generateJwtToken = require('../../utils/jwt');
 
 const User = require('../../models/User');
 
@@ -57,24 +58,12 @@ router.post('/login', (req, res) => {
     }
     bcrypt.compare(password, user.password).then((match) => {
       if (match) {
-        const payload = {
-          id: user.id,
-          name: user.firstName + ' ' + user.lastName,
-        };
-
-        jwt.sign(
-          payload,
-          config.secretOrKey,
-          {
-            expiresIn: 31556926, // 1 year in seconds
-          },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: 'Bearer ' + token,
-            });
-          },
-        );
+        generateJwtToken(user, (err, token) => {
+          res.json({
+            success: true,
+            token: 'Bearer ' + token,
+          });
+        });
       } else {
         return res
           .status(400)

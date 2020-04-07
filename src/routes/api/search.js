@@ -6,6 +6,7 @@ router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
+    console.log(req.user);
     const searchResults = [
       {
         name: 'test1',

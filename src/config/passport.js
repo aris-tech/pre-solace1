@@ -14,20 +14,10 @@ const googleOpts = {
   clientID: config.google.clientId,
   clientSecret: config.google.clientSecret,
   callbackURL: config.google.callbackUrl, // After logging in, we should be redirected to the home page
-  passReqToCallback: true,
 };
 
 module.exports = (passport) => {
-  // Take our user and then put it in a browser cookie?
-  passport.serializeUser((user, done) => {
-    done(null, user);
-  });
-
-  // Take our cookie and create a user?
-  passport.deserializeUser((user, done) => {
-    done(null, user);
-  });
-
+  // This is called as middleware to make protected endpoints
   passport.use(
     new JwtStrategy(jwtOpts, (jwt_payload, done) => {
       User.findById(jwt_payload.id)
@@ -40,10 +30,11 @@ module.exports = (passport) => {
         .catch((err) => console.log(err));
     }),
   );
+  // Note: This is called in the google login/callback stages. This is NOT used to make endpoints protected
   passport.use(
     new GoogleStrategy(
       googleOpts,
-      (request, accessToken, refreshToken, profile, done) => {
+      (accessToken, refreshToken, profile, done) => {
         User.findOne(
           {
             providerId: profile.id,
@@ -61,6 +52,7 @@ module.exports = (passport) => {
                 email: profile.email,
                 provider: 'google',
                 providerId: profile.id,
+                creationDate: Date.now(),
               });
               user.save(function (err) {
                 if (err) {

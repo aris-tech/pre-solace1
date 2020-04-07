@@ -27,6 +27,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  creationDate: {
+    type: Date,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('users', UserSchema);

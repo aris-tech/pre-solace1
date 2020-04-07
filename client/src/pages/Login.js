@@ -1,11 +1,10 @@
 /** @jsx jsx */
-import React, { Component, useState, useCallback } from 'react';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginUser } from '../actions/auth';
 import classnames from 'classnames';
-import M from 'materialize-css';
 import { css, jsx } from '@emotion/core';
 
 const googleButtonStyle = css`
@@ -161,16 +160,8 @@ class Login extends Component {
 
     this.props.loginUser(userData);
   }
-  componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/home'); // Why not put this in the action(thunk) itself?
-    }
-  }
   // Why put logic here? Because redux maps state to props, so if we want to do something whenever redux sends props here, we would put that logic here
   componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push('/home'); // Why not put this in the action(thunk) itself?
-    }
     // Merge errors from redux with the errors in this react component's state
     if (nextProps.errors) {
       this.setState({

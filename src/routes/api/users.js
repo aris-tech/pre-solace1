@@ -27,6 +27,7 @@ router.post('/signup', (req, res) => {
         lastName: req.body.lastName,
         email: req.body.email,
         password: req.body.password,
+        creationDate: Date.now(),
       });
       bcrypt.genSalt((err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -61,7 +62,7 @@ router.post('/login', (req, res) => {
         generateJwtToken(user, (err, token) => {
           res.json({
             success: true,
-            token: 'Bearer ' + token,
+            token: token,
           });
         });
       } else {

@@ -1,11 +1,10 @@
 import axios from 'axios';
 
 /**
- * We used passport.js to generate a JWT token for the client
- * so that they can have a "passport" they can use in order to identify themselves
+ * Apply the JWT token to the header on every request
  * @param {string} token - The JWT token
  */
-const setAuthToken = (token) => {
+const setAuthTokenOnHeader = (token) => {
   if (token) {
     // Apply auth token to every request if logged in
     axios.defaults.headers.common['Authorization'] = token;
@@ -13,4 +12,4 @@ const setAuthToken = (token) => {
     delete axios.defaults.headers.common['Authorization'];
   }
 };
-export default setAuthToken;
+export default setAuthTokenOnHeader;

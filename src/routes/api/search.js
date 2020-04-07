@@ -1,21 +1,25 @@
 const express = require('express');
+const passport = require('passport');
 const router = express.Router();
 
-router.post('/', (req, res) => {
-  // Just as a test, make the first item in the list dependent on the request
-  const searchResults = [
-    {
-      name: 'test1',
-    },
-    {
-      name: 'test2',
-    },
-    {
-      name: 'work on this a bit later',
-    },
-  ];
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const searchResults = [
+      {
+        name: 'test1',
+      },
+      {
+        name: 'test2',
+      },
+      {
+        name: 'work on this a bit later',
+      },
+    ];
 
-  return res.json(searchResults);
-});
+    return res.json(searchResults);
+  },
+);
 
 module.exports = router;

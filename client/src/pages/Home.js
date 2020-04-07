@@ -1,17 +1,9 @@
-import React, { Component, useCallback } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { css } from '@emotion/core';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { searchForCounselor } from '../actions/search';
-
-const logoutButtonCss = css`
-  width: 150px;
-  border-radius: 3px;
-  letter-spacing: 1.5px;
-  margin-top: 1rem;
-`;
 
 function SearchBar({ onSubmit, ...props }) {
   return (

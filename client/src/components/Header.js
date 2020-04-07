@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useRef } from 'react';
+import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import M from 'materialize-css';
 import { connect } from 'react-redux';
@@ -64,7 +64,7 @@ class Header extends Component {
 
               {/* Hamburger Menu Button */}
               <a
-                href="#"
+                href="/"
                 data-target="mobile-dropdown"
                 className="sidenav-trigger left"
               >

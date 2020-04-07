@@ -20,6 +20,7 @@ export function setSearching(value) {
 // Then, dispatch a thunk that gets my search results
 export function searchForCounselor(searchQuery, userId, history) {
   return (dispatch) => {
+    debugger;
     axios
       .post('/api/search', { searchQuery, userId })
       .then((response) => {
@@ -38,6 +39,7 @@ export function setSearchResults(searchResults) {
 
 export function searchFail(err) {
   return (dispatch) => {
+    debugger;
     M.toast({ html: `Search failed: ${err.message}` });
   };
 }

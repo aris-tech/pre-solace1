@@ -13,7 +13,9 @@ function generateJwtToken(user, cb) {
     {
       expiresIn: 31556926, // 1 year in seconds
     },
-    cb,
+    (err, token) => {
+      cb(err, 'Bearer ' + token);
+    },
   );
 }
 

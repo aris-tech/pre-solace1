@@ -1,6 +1,5 @@
-import React, { Component, useState, useCallback } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { css, jsx } from '@emotion/core';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { signupUser } from '../actions/auth';
@@ -96,6 +95,7 @@ class Signup extends Component {
     auth: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
   };
+
   constructor(props) {
     super(props);
 
@@ -132,17 +132,8 @@ class Signup extends Component {
     );
   }
 
-  componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/home');
-    }
-  }
-
-  // Mix redux errors with component state errors
   componentWillReceiveProps(nextProps) {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/home');
-    }
+    // Mix redux errors with component state errors
     if (nextProps.errors) {
       this.setState({
         errors: nextProps.errors,
@@ -151,8 +142,6 @@ class Signup extends Component {
   }
 
   render() {
-    const { errors } = this.state;
-
     return (
       <>
         <div className="container">
@@ -161,12 +150,7 @@ class Signup extends Component {
               <Link to="/" className="btn-flat waves-effect">
                 <i className="material-icons left">keyboard_backspace</i> Back
               </Link>
-              <div
-                className="col s12"
-                css={css`
-                  padding-left: 11.25px;
-                `}
-              >
+              <div className="col s12">
                 <h3>Signup</h3>
                 <p className="grey-text text-darken-1">
                   Already have an account? <Link to="/login">Login</Link>

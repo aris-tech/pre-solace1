@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+const currentYear = new Date().getFullYear();
+
 class Footer extends Component {
   render() {
     return (
@@ -9,7 +11,7 @@ class Footer extends Component {
           style={{ marginRight: '10px' }}
         >
           <div className="container black-text" style={{ width: '100%' }}>
-            © 2020 Copyright
+            © {currentYear} Copyright
           </div>
         </div>
       </footer>

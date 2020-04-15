@@ -17,6 +17,7 @@ import Home from './pages/Home';
 import Footer from './components/Footer';
 import Profile from './pages/Profile';
 import Search from './pages/Search';
+import CounselorSignupPrompt from './pages/CounselorSignupPrompt';
 
 // -- Actions --
 import {
@@ -39,6 +40,11 @@ export default function App() {
             <Route exact path="/" component={Welcome} />
             <NonAuthenticatedRoute exact path="/login" component={Login} />
             <NonAuthenticatedRoute exact path="/signup" component={Signup} />
+            <NonAuthenticatedRoute
+              exact
+              path="/counselor-signup-prompt"
+              component={CounselorSignupPrompt}
+            />
             <PrivateRoute exact path="/home" component={Home} />
             <PrivateRoute exact path="/profile" component={Profile} />
             <PrivateRoute exact path="/search/:query" component={Search} />

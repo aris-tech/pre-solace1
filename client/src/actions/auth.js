@@ -6,12 +6,8 @@ import Cookies from 'js-cookie';
 import { getErrors } from './error';
 
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
-export const USER_LOADING = 'USER_LOADING';
 
-/*
-We want to solve the issue of mixing client-side errors and server-side errors
-we dispatch getErrors to get the errors from the api into redux
-*/
+// -- High-level actions --
 export function signupUser(userData, history, onSuccess) {
   return (dispatch) => {
     axios
@@ -20,7 +16,7 @@ export function signupUser(userData, history, onSuccess) {
         if (onSuccess) {
           onSuccess();
         }
-        history.push('/login');
+        history.push('/counselor-signup-prompt');
       })
       .catch((err) => dispatch(getErrors(err)));
   };
@@ -40,19 +36,6 @@ export function loginUser(userData) {
   };
 }
 
-export function setCurrentUser(decodedToken) {
-  return {
-    type: SET_CURRENT_USER,
-    user: decodedToken,
-  };
-}
-
-export function setUserLoading() {
-  return {
-    type: USER_LOADING,
-  };
-}
-
 export function logoutUser(history) {
   return (dispatch) => {
     // Remove token from localStorage
@@ -62,6 +45,14 @@ export function logoutUser(history) {
     history.push('/login');
     // Set user to nobody
     dispatch(setCurrentUser({}));
+  };
+}
+
+// -- Save auth token to redux store --
+export function setCurrentUser(decodedToken) {
+  return {
+    type: SET_CURRENT_USER,
+    user: decodedToken,
   };
 }
 

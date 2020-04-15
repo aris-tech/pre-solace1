@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const keys = require('../../config/keys');
+const config = require('../../config');
 
-const validateSignupInput = require('../../validation/signup');
-const validateLoginInput = require('../../validation/login');
+const validateSignupInput = require('../../utils/validation/signup');
+const validateLoginInput = require('../../utils/validation/login');
+const generateJwtToken = require('../../utils/jwt');
 
-const UserIdentity = require('../../models/UserIdentity');
+const User = require('../../models/User');
 
 router.post('/signup', (req, res) => {
   const { errors, isValid } = validateSignupInput(req.body);
@@ -16,15 +17,17 @@ router.post('/signup', (req, res) => {
     return res.status(400).json(errors);
   }
 
-  UserIdentity.findOne({ email: req.body.email }) // Promise-like, not actually a promise
+  User.findOne({ email: req.body.email }) // Promise-like, not actually a promise
     .then((user) => {
       if (user) {
         return res.status(400).json({ email: 'Email already exists' });
       }
-      const newUser = new UserIdentity({
-        name: req.body.name,
+      const newUser = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         email: req.body.email,
         password: req.body.password,
+        creationDate: Date.now(),
       });
       bcrypt.genSalt((err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -50,30 +53,18 @@ router.post('/login', (req, res) => {
 
   const { email, password } = req.body;
 
-  UserIdentity.findOne({ email }).then((user) => {
+  User.findOne({ email }).then((user) => {
     if (!user) {
       return res.status(404).json({ emailnotfound: 'Email not found' });
     }
     bcrypt.compare(password, user.password).then((match) => {
       if (match) {
-        const payload = {
-          id: user.id,
-          name: user.name,
-        };
-
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          {
-            expiresIn: 31556926, // 1 year in seconds
-          },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: 'Bearer ' + token,
-            });
-          },
-        );
+        generateJwtToken(user, (err, token) => {
+          res.json({
+            success: true,
+            token: token,
+          });
+        });
       } else {
         return res
           .status(400)

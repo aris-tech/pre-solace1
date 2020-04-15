@@ -2,18 +2,16 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import M from 'materialize-css';
 
-class PrivateRoute extends Component {
+class NonAuthenticatedRoute extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
   };
   render() {
     const {
       component: Component,
-      redirect = '/login',
+      redirect = '/home',
       auth,
-      userNotLoggedIn,
       ...rest
     } = this.props;
 
@@ -21,10 +19,9 @@ class PrivateRoute extends Component {
       <Route
         {...rest}
         render={(props) => {
-          if (auth.isAuthenticated) {
+          if (!auth.isAuthenticated) {
             return <Component {...props} />;
           } else {
-            M.toast({ html: 'You are not logged in.' });
             return <Redirect to={redirect} />;
           }
         }}
@@ -33,10 +30,8 @@ class PrivateRoute extends Component {
   }
 }
 
-PrivateRoute.propTypes = {};
-
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(PrivateRoute);
+export default connect(mapStateToProps)(NonAuthenticatedRoute);

@@ -1,9 +1,8 @@
+/** @jsx jsx */
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { css, jsx } from '@emotion/core';
 import { connect } from 'react-redux';
-
-// todo: Should be called landing page
 
 const WelcomeButtonCss = css`
   width: 140px;
@@ -12,15 +11,9 @@ const WelcomeButtonCss = css`
 `;
 
 class Welcome extends Component {
-  componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/home');
-    }
-  }
-
   render() {
     return (
-      <>
+      <React.Fragment>
         <div style={{ height: '75vh' }} className="container valign-wrapper">
           <div className="row">
             <div className="col s12 center-align">
@@ -52,7 +45,7 @@ class Welcome extends Component {
             </div>
           </div>
         </div>
-      </>
+      </React.Fragment>
     );
   }
 }

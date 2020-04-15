@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, USER_LOADING } from '../actions/auth';
+import { SET_CURRENT_USER } from '../actions/auth';
 const isEmpty = require('is-empty');
 
 const initialState = {
@@ -14,11 +14,6 @@ export default function auth(state = initialState, action) {
         ...state,
         isAuthenticated: !isEmpty(action.user),
         user: action.user,
-      };
-    case USER_LOADING:
-      return {
-        ...state,
-        loading: true,
       };
     default:
       return state;
